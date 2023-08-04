@@ -235,7 +235,7 @@ function BookingTimeTable({ restaurantId }) {
         {showPaymentForm && (
           <div>
             <form
-              action={`http://localhost:8000/user/create-checkout-session/?booking_id=${bookingId}`}
+              action={`${BASE_URL}/user/create-checkout-session/?booking_id=${bookingId}`}
               method="POST"
             >
               <div className="mb-4">

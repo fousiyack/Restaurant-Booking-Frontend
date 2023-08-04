@@ -104,7 +104,7 @@ useEffect(() => {
         formDataToSend.append("image", formData.image, uniqueFilename); 
       }
       const response = await axios.put(
-        `${BASE_URL}http://localhost:8000/restaurant/edit/${id}/`,
+        `${BASE_URL}/restaurant/edit/${id}/`,
         formDataToSend,
         {
           headers: {

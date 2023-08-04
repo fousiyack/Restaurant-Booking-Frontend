@@ -38,7 +38,7 @@ const RegistrationModal = ({ onClose }) => {
     console.log("registration", values);
     const { email, name, password, mobile } = values;
     setEmail(email);
-    const response = await axios.post('${BASE_URL}/user/register/', values);
+    const response = await axios.post(`${BASE_URL}/user/register/`, values);
     console.log(response.data);
     setShowOTPModal(true);
     // Pass the email value to handleOTPSubmit
@@ -50,7 +50,7 @@ const RegistrationModal = ({ onClose }) => {
     try {
       // Combine the OTP values with the email
       const otpValues = { ...values, email };
-      const response = await axios.post('${BASE_URL}/user/verify/', otpValues);
+      const response = await axios.post(`${BASE_URL}/user/verify/`, otpValues);
       console.log(response.data); 
       // navigate("/user-login");
       setShowOTPModal(false);

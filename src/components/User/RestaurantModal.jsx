@@ -1,56 +1,58 @@
-import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import {useNavigate, json } from 'react-router-dom';
+import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate, json } from "react-router-dom";
 import { BASE_URL } from "../../Utils/Config";
 
 const RestaurantModal = ({ onClose }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
-  const [regMessage, setRegMessage] = useState('');
+  const [regMessage, setRegMessage] = useState("");
   const [showOTPModal, setShowOTPModal] = useState(false);
   const navigate = useNavigate();
 
   // const { handleSubmit } = F
 
   const initialValues = {
-    email: '',
-    name: '',
-    password: '',
-    mobile: '',
-    address: ''
+    email: "",
+    name: "",
+    password: "",
+    mobile: "",
+    address: "",
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    name: Yup.string().required('Name is required'),
-    password: Yup.string().required('Password is required'),
-    mobile: Yup.string().required('Mobile number is required'),
-    address: Yup.string()
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    name: Yup.string().required("Name is required"),
+    password: Yup.string().required("Password is required"),
+    mobile: Yup.string().required("Mobile number is required"),
+    address: Yup.string(),
   });
-  console.log('vlaidation schema', validationSchema)
-
-
-
+  console.log("vlaidation schema", validationSchema);
 
   const handleRegistration = async (values, { setSubmitting }) => {
     console.log("registration", values);
     const { email, name, password, mobile } = values;
     setEmail(email);
-    const response = await axios.post('${BASE_URL}/user/restaurantRegister/', values);
+    const response = await axios.post(
+      `${BASE_URL}/user/restaurantRegister/`,
+      values
+    );
     console.log(response.data);
     setShowOTPModal(true);
     // Pass the email value to handleOTPSubmit
     handleOTPSubmit(values, response.data.email, setSubmitting);
   };
-  
+
   const handleOTPSubmit = async (values, setSubmitting) => {
-    console.log('handle otp submit', values);
+    console.log("handle otp submit", values);
     try {
       // Combine the OTP values with the email
       const otpValues = { ...values, email };
-      const response = await axios.post('${BASE_URL}/user/verify/', otpValues);
+      const response = await axios.post(`${BASE_URL}/user/verify/`, otpValues);
       console.log(response.data);
       navigate("/user");
       setShowOTPModal(false);
@@ -58,7 +60,6 @@ const RestaurantModal = ({ onClose }) => {
       console.log(error);
     }
   };
-  
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -82,11 +83,12 @@ const RestaurantModal = ({ onClose }) => {
               onSubmit={handleRegistration}
             >
               <Form>
-               
-
                 <div className="mb-4">
-                  <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-                  Owner Name
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    Owner Name
                   </label>
                   <Field
                     type="text"
@@ -94,10 +96,17 @@ const RestaurantModal = ({ onClose }) => {
                     id="name"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
+                  <ErrorMessage
+                    name="name"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
                     Email
                   </label>
                   <Field
@@ -106,11 +115,18 @@ const RestaurantModal = ({ onClose }) => {
                     id="email"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
                     Password
                   </label>
                   <Field
@@ -119,11 +135,18 @@ const RestaurantModal = ({ onClose }) => {
                     id="password"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="mobile" className="block text-gray-700 text-sm font-bold mb-2">
+                  <label
+                    htmlFor="mobile"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
                     Mobile Number
                   </label>
                   <Field
@@ -132,7 +155,11 @@ const RestaurantModal = ({ onClose }) => {
                     id="mobile"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <ErrorMessage name="mobile" component="div" className="text-red-500 text-sm" />
+                  <ErrorMessage
+                    name="mobile"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
                 {/* {showOTPInput && (
@@ -149,8 +176,7 @@ const RestaurantModal = ({ onClose }) => {
                     <ErrorMessage name="otp" component="div" className="text-red-500 text-sm" />
                   </div>
                 )} */}
-              <div>
-            
+                <div>
                   <button
                     type="button"
                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -159,78 +185,89 @@ const RestaurantModal = ({ onClose }) => {
                     Cancel
                   </button>
                   <button
-                  onClick={() => setShowOTPModal(true)}
+                    onClick={() => setShowOTPModal(true)}
                     className="bg-blue-500 text-white py-2 px-4 rounded"
                   >
                     Send OTP
                   </button>
-                </div> 
-                
+                </div>
               </Form>
             </Formik>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          {showOTPModal && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            {/* <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+            {showOTPModal && (
+              <div className="fixed z-10 inset-0 overflow-y-auto">
+                <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                  {/* <div className="fixed inset-0 transition-opacity" aria-hidden="true">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div> */}
 
-            {/* This element is to trick the browser into centering the modal contents */}
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-              &#8203;
-            </span>
+                  {/* This element is to trick the browser into centering the modal contents */}
+                  <span
+                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true"
+                  >
+                    &#8203;
+                  </span>
 
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <div>
-                <h4>We have sent an OTP to your email. Please check your inbox.</h4>
-                <Formik
-                  initialValues={{ otp: '' }}
-                  validationSchema={Yup.object().shape({
-                    otp: Yup.string().required('OTP is required')
-                  })}
-                  onSubmit={handleOTPSubmit}
-                >
-                    {({ isSubmitting }) => (
-                  <Form>
-                    <div className="mb-4">
-                      <label htmlFor="otp" className="block text-gray-700 text-sm font-bold mb-2">
-                        OTP
-                      </label>
-                      <Field
-                        type="text"
-                        name="otp"
-                        id="otp"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      />
-                      <ErrorMessage name="otp" component="div" className="text-red-500 text-sm" />
-                    </div>
-                    <div className="flex justify-between">
-                      <button
-                        type="submit"
-                        className="bg-blue-500 text-white py-2 px-4 rounded"
-                        disabled={isSubmitting} 
+                  <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                    <div>
+                      <h4>
+                        We have sent an OTP to your email. Please check your
+                        inbox.
+                      </h4>
+                      <Formik
+                        initialValues={{ otp: "" }}
+                        validationSchema={Yup.object().shape({
+                          otp: Yup.string().required("OTP is required"),
+                        })}
+                        onSubmit={handleOTPSubmit}
                       >
-                        Verify OTP
-                      </button>
-                      <button
-                        type="button"
-                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={() => setShowOTPModal(false)}
-                      >
-                        Cancel
-                      </button>
+                        {({ isSubmitting }) => (
+                          <Form>
+                            <div className="mb-4">
+                              <label
+                                htmlFor="otp"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                              >
+                                OTP
+                              </label>
+                              <Field
+                                type="text"
+                                name="otp"
+                                id="otp"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                              />
+                              <ErrorMessage
+                                name="otp"
+                                component="div"
+                                className="text-red-500 text-sm"
+                              />
+                            </div>
+                            <div className="flex justify-between">
+                              <button
+                                type="submit"
+                                className="bg-blue-500 text-white py-2 px-4 rounded"
+                                disabled={isSubmitting}
+                              >
+                                Verify OTP
+                              </button>
+                              <button
+                                type="button"
+                                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                onClick={() => setShowOTPModal(false)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </Form>
+                        )}
+                      </Formik>
                     </div>
-                  </Form>
-                    )}
-                </Formik>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
+            )}
           </div>
         </div>
       </div>
@@ -239,19 +276,3 @@ const RestaurantModal = ({ onClose }) => {
 };
 
 export default RestaurantModal;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -21,7 +21,7 @@ const LoginModal = ({ onClose }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('${BASE_URL}/user/login', values);
+      const response = await axios.post(`${BASE_URL}/user/login`, values);
       console.log( response.data,'.............')
 
       const TokenData=jwt_decode(response.data.access_token)
