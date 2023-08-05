@@ -5,7 +5,7 @@ import { avatar } from "../Images/chatAvatar.png";
 import { BASE_URL } from "../../Utils/Config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import bgAdmin from "../Images/chatWallpaper1.webp";
+import bgAdmin from "../Images/chatWallpaper.webp";
 
 const ChatComponent = () => {
   const [author, setAuthor] = useState("");
@@ -127,12 +127,12 @@ const ChatComponent = () => {
     return formattedTime;
   };
 
-  console.log("author:", author);
-  console.log("message.author:", messages);
+  console.log("author11:", author);
+  console.log("message.author11:", messages);
 
   return (
     <div
-      className="flex h-screen bg-cover bg-center  rounded-md bg-gray-200"
+      className="flex h-screen items-center justify-center bg-cover bg-center  rounded-md bg-gray-200"
       style={{ backgroundImage: `url(${bgAdmin})` }}
     >
       {/* <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${bgAdmin})` }}> */}
@@ -147,24 +147,26 @@ const ChatComponent = () => {
           <div className="flex-grow p-6 overflow-y-auto">
             {messages.length > 0 ? (
 
-              messages.map((message, index) => (
-                <div
+              messages.map((message, index) => {
+                console.log("messsssssss",message.author_id);
+
+               return( <div
                   key={index}
                   ref={scroll}
                   className={`flex ${
-                    message.author === author ? "justify-end" : "justify-start"
+                    message.author_id== author ? "justify-end" : "justify-start"
                   } mb-4`}
                 >
                   <div
                     className={`${
-                      message.author === author
+                      message.author_id== author
                         ? "bg-green-500 text-white self-end"
                         : "bg-blue-500 text-white self-start"
                     } py-2 px-4 rounded-lg max-w-md`}
                   >
                     <div className="flex items-center">
                       {/* Display sender avatar for non-sender messages */}
-                      {message.author !== author && (
+                      {message.author_id!== author && (
                         <img
                           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU"
                           alt="avatar"
@@ -173,9 +175,9 @@ const ChatComponent = () => {
                       )}
                       <div className="flex flex-col">
                         {/* Display sender username for non-sender messages */}
-                        {message.author !== author && (
+                        {message.author_id!== author && (
                           <div className="text-sm text-gray-500">
-                            {message.author}
+                            {message.author_id}
                           </div>
                         )}
 
@@ -187,7 +189,8 @@ const ChatComponent = () => {
                     </div>
                   </div>
                 </div>
-              ))
+               )
+})
             ) : (
               <div className="text-center text-gray-500">No messages yet</div>
             )}
@@ -222,114 +225,3 @@ const ChatComponent = () => {
 };
 
 export default ChatComponent;
-
-// import React, { useState, useEffect } from "react";
-// import { w3cwebsocket as W3CWebSocket } from "websocket";
-
-// function Chat() {
-//   const [socket, setSocket] = useState(null);
-//   const [username, setUsername] = useState("");
-//   const [message, setMessage] = useState("");
-//   const [messages, setMessages] = useState([]);
-
-//   useEffect(() => {
-//     // Get the username from local storage or prompt the user to enter it
-//     const storedUsername = localStorage.getItem("username");
-//     console.log(username,"user.............")
-//     if (storedUsername) {
-//       setUsername(storedUsername);
-//     } else {
-//       const input = prompt("Enter your username:");
-//       if (input) {
-//         setUsername(input);
-//         localStorage.setItem("username", input);
-//       }
-//     }
-
-//     // Connect to the WebSocket server with the username as a query parameter
-//     const newSocket = new WebSocket(`ws://localhost:8000/ws/chat/`);
-//     setSocket(newSocket);
-
-//     newSocket.onopen = () => console.log("WebSocket connected");
-//     newSocket.onclose = () => console.log("WebSocket disconnected");
-
-//     // Clean up the WebSocket connection when the component unmounts
-//     return () => {
-//       newSocket.close();
-//     };
-//   }, [username]);
-
-//   useEffect(() => {
-//     if (socket) {
-//       socket.onmessage = (event) => {
-//         const data = JSON.parse(event.data);
-//         setMessages((prevMessages) => [...prevMessages, data]);
-//       };
-//     }
-//   }, [socket]);
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     if (message && socket) {
-//       const data = {
-//         message: message,
-//         username: username,
-//       };
-//       socket.send(JSON.stringify(data));
-//       setMessage("");
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col">
-//       <div className="bg-gray-200 py-4">
-//         <div className="container mx-auto flex items-center">
-//           <div className="flex items-center text-lg">
-//             {/* <img
-//               src="/path/to/logo.png"
-//               alt="Logo"
-//               className="mr-2 h-10 w-10"
-//             /> */}
-//             <div>Dine Eazy</div>
-//           </div>
-
-//         </div>
-//       </div>
-//       <div className="flex-grow bg-blue-500 p-4">
-//       <h1 className="text-center text-black font-extrabold font-serif text-2xl uppercase">
-//             Chat
-//           </h1>
-//         <div className="message-container h-full overflow-y-auto">
-//           {messages.map((message, index) => (
-//             <div key={index} className="message my-2 px-4 py-2 rounded-lg">
-//               <div className="message-username text-white font-bold">
-//                 {message.username}:
-//               </div>
-//               <div className="message-content text-white">{message.message}</div>
-//               <div className="message-timestamp text-gray-400 text-xs">
-//                 {message.timestamp}
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//         <form onSubmit={handleSubmit} className="flex">
-//           <input
-//             type="text"
-//             placeholder="Type a message..."
-//             value={message}
-//             onChange={(event) => setMessage(event.target.value)}
-//             className="flex-grow py-2 px-4 border border-gray-300 rounded-lg mr-2 focus:outline-none focus:border-blue-500"
-//           />
-//           <button
-//             type="submit"
-//             className="bg-blue-600 py-2 px-4 rounded-lg text-white"
-//           >
-//             Send
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Chat;
