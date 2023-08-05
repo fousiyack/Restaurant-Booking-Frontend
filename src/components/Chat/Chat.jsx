@@ -61,7 +61,7 @@ const ChatComponent = () => {
         .get(`${BASE_URL}/chat/rooms/${activeRoomId}/messages/`)
         .then((response) => {
           setMessages(response.data);
-          console.log(messages,'messagessssssssssss');
+          console.log(messages, "messagessssssssssss");
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -78,8 +78,7 @@ const ChatComponent = () => {
     const message = {
       content: newMessage,
       author: author,
-      room_id: activeRoomId
-    
+      room_id: activeRoomId,
     };
 
     axios
@@ -146,51 +145,51 @@ const ChatComponent = () => {
           {/* ... (existing code) */}
           <div className="flex-grow p-6 overflow-y-auto">
             {messages.length > 0 ? (
-
               messages.map((message, index) => {
-                console.log("messsssssss",message.author_id);
+                console.log("messsssssss", message.author);
 
-               return( <div
-                  key={index}
-                  ref={scroll}
-                  className={`flex ${
-                    message.author_id== author ? "justify-end" : "justify-start"
-                  } mb-4`}
-                >
+                return (
                   <div
-                    className={`${
-                      message.author_id== author
-                        ? "bg-green-500 text-white self-end"
-                        : "bg-blue-500 text-white self-start"
-                    } py-2 px-4 rounded-lg max-w-md`}
+                    key={index}
+                    ref={scroll}
+                    className={`flex ${
+                      message.author == author ? "justify-end" : "justify-start"
+                    } mb-4`}
                   >
-                    <div className="flex items-center">
-                      {/* Display sender avatar for non-sender messages */}
-                      {message.author_id!== author && (
-                        <img
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU"
-                          alt="avatar"
-                          className="mr-3 rounded-full h-6 w-6"
-                        />
-                      )}
-                      <div className="flex flex-col">
-                        {/* Display sender username for non-sender messages */}
-                        {message.author_id!== author && (
-                          <div className="text-sm text-gray-500">
-                            {message.author_id}
-                          </div>
+                    <div
+                      className={`${
+                        message.author == author
+                          ? "bg-green-500 text-white self-end"
+                          : "bg-blue-500 text-white self-start"
+                      } py-2 px-4 rounded-lg max-w-md`}
+                    >
+                      <div className="flex items-center">
+                        {/* Display sender avatar for non-sender messages */}
+                        {message.author !== author && (
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU"
+                            alt="avatar"
+                            className="mr-3 rounded-full h-6 w-6"
+                          />
                         )}
+                        <div className="flex flex-col">
+                          {/* Display sender username for non-sender messages */}
+                          {message.author !== author && (
+                            <div className="text-sm text-gray-500">
+                              {message.author}
+                            </div>
+                          )}
 
-                        <div className="mb-1">{message.content}</div>
-                        <div className="text-xs text-gray-500">
-                          {formatTimestamp(message.timestamp)}
+                          <div className="mb-1">{message.content}</div>
+                          <div className="text-xs text-gray-500">
+                            {formatTimestamp(message.timestamp)}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-               )
-})
+                );
+              })
             ) : (
               <div className="text-center text-gray-500">No messages yet</div>
             )}
