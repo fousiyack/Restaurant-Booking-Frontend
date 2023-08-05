@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../Utils/Config";
@@ -6,7 +6,7 @@ import { BASE_URL } from "../../Utils/Config";
 const RestaurantAdd = () => {
   const navigate = useNavigate();
   const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCity, setSelectedCity] = useState("");
 
   const [formData, setFormData] = useState({
     restaurant_name: "",
@@ -27,9 +27,7 @@ const RestaurantAdd = () => {
         [e.target.name]: e.target.files[0],
         imagePreview: URL.createObjectURL(e.target.files[0]),
       });
-    }
-  
-    else {
+    } else {
       setFormData({
         ...formData,
         [e.target.name]: e.target.value,
@@ -39,15 +37,15 @@ const RestaurantAdd = () => {
 
   const fetchCities = async () => {
     try {
-        const response = await axios.get('${BASE_URL}/admin/cities/');
-        setCities(response.data);
+      const response = await axios.get(`${BASE_URL}/admin/cities/`);
+      setCities(response.data);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
-useEffect(() => {
-  fetchCities();
-}, []);
+  };
+  useEffect(() => {
+    fetchCities();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,17 +59,17 @@ useEffect(() => {
       formDataToSend.append("city", formData.city);
       formDataToSend.append("state", formData.state);
       formDataToSend.append("restaurant_address", formData.restaurant_address);
-    
+
       if (formData.image) {
         const timestamp = Date.now();
-        const uniqueFilename = `${timestamp}_${formData.image.name}`; 
-        formDataToSend.append("image", formData.image, uniqueFilename); 
+        const uniqueFilename = `${timestamp}_${formData.image.name}`;
+        formDataToSend.append("image", formData.image, uniqueFilename);
       }
 
-      console.log("formData.............",formData)
+      console.log("formData.............", formData);
 
       const response = await axios.post(
-        "${BASE_URL}/restaurant/addrest/",
+        `${BASE_URL}/restaurant/addrest/` ,
         formDataToSend,
         {
           headers: {
@@ -86,19 +84,16 @@ useEffect(() => {
       console.log(error);
     }
   };
- 
 
- 
-const handleCityChange = (event) => {
-  const selectedCityId = parseInt(event.target.value, 10);
-  const selectedCity = cities.find(city => city.id === selectedCityId);
-  setSelectedCity(selectedCity);
-  setFormData({
-    ...formData,
-    city: selectedCityId,
-  });
-};
-
+  const handleCityChange = (event) => {
+    const selectedCityId = parseInt(event.target.value, 10);
+    const selectedCity = cities.find((city) => city.id === selectedCityId);
+    setSelectedCity(selectedCity);
+    setFormData({
+      ...formData,
+      city: selectedCityId,
+    });
+  };
 
   return (
     <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
@@ -108,7 +103,7 @@ const handleCityChange = (event) => {
         </div>
         <div className="p-3">
           <form className="w-full" onSubmit={handleSubmit}>
-          <div className="flex -mx-3 mb-6">
+            <div className="flex -mx-3 mb-6">
               <div className="w-full px-3">
                 <label
                   className="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1"
@@ -181,9 +176,8 @@ const handleCityChange = (event) => {
                 />
               </div>
             </div>
-           
-            <div className="flex flex-wrap -mx-3 mb-6"> 
-            
+
+            <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3">
                 <label
                   className="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1"
@@ -201,9 +195,8 @@ const handleCityChange = (event) => {
                   required
                 />
               </div>
-              </div>
-            <div className="flex  -mx-3 mb-6"> 
-          
+            </div>
+            <div className="flex  -mx-3 mb-6">
               <div className="w-full px-3">
                 <label
                   className="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1"
@@ -211,25 +204,22 @@ const handleCityChange = (event) => {
                 >
                   City
                 </label>
-                
+
                 <select
-  className="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
-  value={selectedCity ? selectedCity.id : ""}
-  onChange={handleCityChange}
-  name="city"
->
-  <option value="">--Select a City--</option>
-  {cities.map((city) => (
-    <option key={city.id} value={city.id}>
-      {city.name}
-    </option>
-  ))}
-</select>
-              </div> 
-              
-            
-          
-            
+                  className="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                  value={selectedCity ? selectedCity.id : ""}
+                  onChange={handleCityChange}
+                  name="city"
+                >
+                  <option value="">--Select a City--</option>
+                  {cities.map((city) => (
+                    <option key={city.id} value={city.id}>
+                      {city.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="w-full px-3">
                 <label
                   className="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1"

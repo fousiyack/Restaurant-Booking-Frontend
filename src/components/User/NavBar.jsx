@@ -66,7 +66,7 @@ const Navbar = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await axios.get("${BASE_URL}/admin/cities/");
+      const response = await axios.get(`${BASE_URL}/admin/cities/`);
       setCities(response.data);
     } catch (error) {
       console.log(error);

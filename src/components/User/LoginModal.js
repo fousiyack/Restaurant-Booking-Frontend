@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { BASE_URL } from "../../Utils/Config";
+import { toast,Toaster } from 'react-hot-toast';
 
 const LoginModal = ({ onClose }) => {
   const [loginMessage, setLoginMessage] = useState('');
@@ -40,7 +41,8 @@ const LoginModal = ({ onClose }) => {
       else{
 
       }
-      setLoginMessage('Logged in successfully');
+      toast.success('Logged in succesfully')
+      // setLoginMessage('Logged in successfully');
     } catch (error) {
       // Handle any error that occurred during the login process
     } finally {
@@ -51,6 +53,7 @@ const LoginModal = ({ onClose }) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+      <Toaster position='top-right' reverseOrder='false' limit={1} ></Toaster>
         {/* <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div> */}
