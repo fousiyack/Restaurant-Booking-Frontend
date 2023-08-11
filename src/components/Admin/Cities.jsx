@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link ,useNavigate} from 'react-router-dom';
 import { BASE_URL } from "../../Utils/Config";
+import Swal from 'sweetalert2';
+import { toast,Toaster } from 'react-hot-toast';
+
 
 export default function Cities() {
   const [cityList, setCityList] = useState([]);
@@ -24,14 +27,26 @@ export default function Cities() {
     fetchCities();
   }, []);
   const handleDeleteCity = async (cityId) => {
-    try {
-      await axios.delete(`${BASE_URL}/admin/deleteCity/${cityId}/`);
-      fetchCities();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Delete city....!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`${BASE_URL}/admin/delete_city/${cityId}/`);
+          
+          fetchCities()
+          toast.error("Deleted")
+      }
+  })
+}
+
+ 
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -73,7 +88,7 @@ export default function Cities() {
                     <td className="border px-4 py-2">{city.name}</td>
                     <td className="border px-4 py-2">{city.state}</td>
                     <td className="border px-4 py-2">
-                    <Link to={`/editCity/${city.id}`} className="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
+                    <Link to={`/EditCity/${city.id}`} className="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
                       <i className="fas fa-edit"></i>
                     </Link>
                     <button

@@ -88,11 +88,13 @@ function RestBookingHistory() {
                 <tr>
                   {/* <th className="border w-1/2 px-4 py-2">Restaurant</th> */}
                   <th className="border w-1/2 px-4 py-2">User</th>
+                  <th className="border w-1/2 px-4 py-2">Phone</th>
                   <th className="border w-1/2 px-4 py-2">Date</th>
                   <th className="border w-1/2 px-4 py-2">Guest Count</th>
                   <th className="border w-1/2 px-4 py-2">Start Time</th>
                   <th className="border w-1/2 px-4 py-2">End Time</th>
                   <th className="border w-1/2 px-4 py-2">Table Number</th>
+                  <th className="border w-1/2 px-4 py-2">Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -102,6 +104,7 @@ function RestBookingHistory() {
                       {booking.restaurantId.restaurant_name}
                     </td> */}
                     <td className="border px-4 py-2">{booking.user.name}</td>
+                    <td className="border px-4 py-2">{booking.user.mobile}</td>
                     <td className="border px-4 py-2">{booking.date}</td>
                     <td className="border px-4 py-2">{booking.guestCount}</td>
                     <td className="border px-4 py-2">
@@ -112,6 +115,9 @@ function RestBookingHistory() {
                     </td>
                     <td className="border px-4 py-2">
                       {booking.tableId.table_number}
+                    </td>
+                    <td className="border px-4 py-2">
+                      {booking.price}
                     </td>
                   </tr>
                 ))}

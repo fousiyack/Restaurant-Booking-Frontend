@@ -14,13 +14,13 @@ const AdminNavbar = () => {
   return (
     <header className="bg-nav">
       <div className="flex justify-between">
-        <div className="p-1 mx-3 inline-flex items-center">
+        {/* <div className="p-1 mx-3 inline-flex items-center">
           <i
             className="fas fa-bars pr-2 text-white cursor-pointer md:hidden"
             onClick={toggleSidebar}
-          ></i>
+          >toggle</i>
           <h1 className="text-white p-2">Admin</h1>
-        </div>
+        </div> */}
         {/* <div className="p-1 flex flex-row items-center">
           <a
             href="https://github.com/tailwindadmin/admin"

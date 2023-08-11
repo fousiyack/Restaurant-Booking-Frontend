@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-    .get('${BASE_URL}/restaurant/total-bookings/')
+    .get(`${BASE_URL}/restaurant/total-bookings/`)
     .then((response) => {
       setTotalBookings(response.data.total_bookings);
     })
@@ -20,7 +20,7 @@ const Dashboard = () => {
       console.log('Error fetching total bookings:', error);
     });
 
-  axios.get("${BASE_URL}/restaurant/restListall/")
+  axios.get(`${BASE_URL}/restaurant/restListall/`)
     .then((response) => {
       setTotalRestaurants(response.data.length);
     })
@@ -28,9 +28,10 @@ const Dashboard = () => {
       console.log('Error fetching total restaurants:', error);
     });
 
-    axios.get("${BASE_URL}/user/userList/")
+    axios.get(`${BASE_URL}/user/userList/`)
     .then((response) => {
       setTotalUsers(response.data.length);
+     
     })
     .catch((error) => {
       console.log('Error fetching total restaurants:', error);

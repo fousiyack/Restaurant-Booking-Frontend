@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import bgAdmin from './Images/bgAdmin2.jpg'
 import { BASE_URL } from "../Utils/Config";
+import { toast, Toaster } from "react-hot-toast";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -22,19 +23,20 @@ function AdminLogin() {
         `${BASE_URL}/admin/login/`,
         user
       );
-
+      console.log(data,'-------------daaataaaaa');
       const tokenData = jwt_decode(data.access_token);
-      // Cookies.set("access_token", data.access_token);
-      // Cookies.set("refresh_token", data.refresh_token);
-      localStorage.setItem('admin_access_token',data.access_token) 
-      localStorage.setItem('refresh_token',data.refresh_token)
+      localStorage.setItem('access_token',data.access_token) 
+      localStorage.setItem('email',data.email) 
+      localStorage.setItem('user',data) 
+
+      localStorage.setItem("is_superuser", data.is_superuser);
       console.log("tokennn", tokenData);
 
       // Perform any additional actions after successful login, such as redirecting to a different page
       navigate("/AdminDashboard");
     } catch (error) {
-      console.error("Login failed:", error);
-      // Handle login error, e.g., display an error message to the user
+      
+     toast.error("Login Failed")
     }
   };
 
@@ -57,6 +59,7 @@ function AdminLogin() {
       /> */}
 
       <div className="w-full max-w-md px-4 py-8 bg-gray-800 rounded-lg shadow-lg">
+      <Toaster position="top-right" reverseOrder="false" limit={1}></Toaster>
       <h3 className="text-3xl text-center text-white mb-6">Sign In</h3>
        
       <div className="space-y-4 ">

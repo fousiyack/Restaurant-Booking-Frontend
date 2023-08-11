@@ -2,6 +2,7 @@ import React,{useState}from 'react'
 import axios from "axios";
 import { useNavigate} from 'react-router-dom';
 import { BASE_URL } from "../../Utils/Config";
+import { toast,Toaster } from 'react-hot-toast';
 
 
 
@@ -21,8 +22,8 @@ export default function AddCity() {
           formDataToSend.append("name", formData.name);
           formDataToSend.append("state", formData.state);
           const response = await axios.post(
-            "${BASE_URL}/admin/add_city/",formDataToSend)
-            console.log(response.data);  
+            `${BASE_URL}/admin/add_city/`,formDataToSend)
+            toast.success("Added successfully")
             navigate("/Cities");
         
     } catch (error) {
@@ -38,6 +39,7 @@ export default function AddCity() {
   return (
     <div>
       <form className="w-full" onSubmit={handleSubmit}>
+      <Toaster position="top-right" reverseOrder="false" limit={1}></Toaster>
       <div className="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
           Add City
         </div>

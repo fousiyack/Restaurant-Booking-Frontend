@@ -1,29 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import { BASE_URL } from "../../Utils/Config";
-
-
-
-
 
 const Navbar = () => {
   const [hasRestaurant, setHasRestaurant] = useState(false);
- 
 
-  const userId = localStorage.getItem('id');
+  const userId = localStorage.getItem("id");
   useEffect(() => {
     const checkRestaurantEntry = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/restaurant/has-entry/${userId}`);
-        console.log(response.data)
+        const response = await axios.get(
+          `${BASE_URL}/restaurant/has-entry/${userId}`
+        );
+        console.log(response.data);
         setHasRestaurant(response.data.hasEntry);
         if (response.data.restaurantId) {
-          localStorage.setItem('restaurantId', response.data.restaurantId);
+          localStorage.setItem("restaurantId", response.data.restaurantId);
         } else {
-          localStorage.removeItem('restaurantId');
+          localStorage.removeItem("restaurantId");
         }
-        
       } catch (error) {
         // Handle error
       }
@@ -36,28 +32,31 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-800 border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center">
-        
-          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Restaurant Booking </span>
+        <a className="flex items-center">
+          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+            Restaurant Side{" "}
+          </span>
         </a>
         <div className="flex md:order-2">
-          <button
-            type="button"
+          <Link
+            to="/restSide/OwnerProfile"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Get started
-          </button>
+            Owner Details
+          </Link>
+
           <button
             data-collapse-toggle="navbar-cta"
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-cta"
             aria-expanded="false"
-          >
-          
-          </button>
+          ></button>
         </div>
-        <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
+        <div
+          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          id="navbar-cta"
+        >
           {/* <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <a
@@ -101,12 +100,6 @@ const Navbar = () => {
 
 export default Navbar;
 
-
-
-
-
-
-
 // import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import axios from 'axios';
@@ -133,7 +126,7 @@ export default Navbar;
 //   return (
 //     <nav className="bg-Black border-gray-200 dark:bg-gray-300">
 //       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      
+
 //         <div className="flex md:order-2">
 //           {hasRestaurant ? (
 //             <Link
@@ -159,10 +152,3 @@ export default Navbar;
 // };
 
 // export default Navbar;
-
-
-
-
-
-
-

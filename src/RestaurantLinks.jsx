@@ -15,6 +15,9 @@ import RestaurantList from "./components/Admin/RestaurantList";
 import Complaint from "./components/Restaurants/Complaints";
 import RestDashboard from "./components/Restaurants/RestDashboard";
 import Complaints from "./components/Restaurants/Complaints";
+import OwnerProfile from "./components/Restaurants/OwnerProfile";
+import OwnerRestaurants from "./components/Restaurants/OwnerRestaurants";
+import RestUnderUser from "./components/Restaurants/RestUnderUser";
 
 const RestaurantLinks = () => {
   return (
@@ -33,6 +36,30 @@ const RestaurantLinks = () => {
           }
         />
 
+        <Route
+          path="/OwnerProfile"
+          element={
+            <>
+              <Navbar />
+              <div className="flex col-2">
+                <RestSidebar />
+                <OwnerProfile />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/Restaurants"
+          element={
+            <>
+              <Navbar />
+              <div className="flex col-2">
+                <RestSidebar />
+                <OwnerRestaurants />
+              </div>
+            </>
+          }
+        />
         <Route
           path="/AddRestaurant"
           element={
@@ -84,13 +111,15 @@ const RestaurantLinks = () => {
           }
         />
         <Route
-          path="/restList"
+          path="/RestUnderUser"
           element={
             <>
               <Navbar />
               <div className="flex col-2">
                 <RestSidebar />
-                <RestaurantList />
+                {/* <RestaurantList /> */}
+                {/* <RestUnderUser /> */}
+                <RestUnderUser/>
               </div>
             </>
           }

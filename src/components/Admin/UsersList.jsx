@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import { BASE_URL } from "../../Utils/Config";
-
 
 export default function UsersList() {
   const [userList, setUserList] = useState([]);
@@ -10,16 +9,15 @@ export default function UsersList() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/user/userList/`);
-      const userListWithBlockedStatus = response.data.map(user => ({
-        ...user,
-        blocked: !user.is_active
-      }));
-      setUserList(response.data);
+   
+      setUserList(response.data); 
+      console.log(response.data,'usersssssssssss')
+       
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -35,44 +33,20 @@ export default function UsersList() {
 
   const handleBlockUser = async (userId) => {
     try {
-     
+      console.log("blockkk");
       await axios.put(`${BASE_URL}/user/block/${userId}/`);
       fetchUsers();
-      setUserList((prevUserList) =>
-       prevUserList.map((user) => {
-        if (user.id === userId) {
-          
-          return { ...user, is_active: true };
-          
-
-        }
-        return user;
-      })
-    );
-
+    
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleUnblockUser = async (userId) => {
+  const  handleUnblockUser= async (userId) => {
     try {
+      console.log("unblockkk");
       await axios.put(`${BASE_URL}/user/unblock/${userId}/`);
-      // Handle successful unblock as needed
-      // Refresh user list after unblocking
-     
       fetchUsers();
-      setUserList((prevUserList) =>
-        prevUserList.map((user) => {
-        if (user.id === userId) {
-          
-          return { ...user, is_active: false };
-         
-        }
-        return user;
-      })
-    );
-
     } catch (error) {
       console.log(error);
     }
@@ -88,51 +62,44 @@ export default function UsersList() {
           <table className="table-responsive w-full rounded">
             <thead>
               <tr>
-               
                 <th className="border w-1/6 px-4 py-2">Username</th>
                 <th className="border w-1/6 px-4 py-2">Email</th>
                 <th className="border w-1/6 px-4 py-2">Mobile</th>
                 <th className="border w-1/6 px-4 py-2">Address</th>
                 <th className="border w-1/6 px-4 py-2">Block/Unblock</th>
-                <th className="border w-1/6 px-4 py-2">Actions</th>
-                
+                {/* <th className="border w-1/6 px-4 py-2">Actions</th> */}
               </tr>
             </thead>
             <tbody>
               {userList.map((user) => (
                 <tr key={user.id}>
-
-
-               
                   <td className="border px-4 py-2">{user.name}</td>
                   <td className="border px-4 py-2">{user.email}</td>
                   <td className="border px-4 py-2">{user.mobile}</td>
                   <td className="border px-4 py-2">{user.id}</td>
-                  
+
                   <td className="border px-4 py-2">
                     {user.is_active ? (
-                     
-                      <button
-                        className="bg-yellow-500 cursor-pointer rounded p-1 mx-1 text-white"
-                        onClick={() =>handleBlockUser (user.id)} 
-                      >
-                       
-                        Block
-                      </button>
-                      
-                    ) : (
                       <button
                         className="bg-blue-500 cursor-pointer rounded p-1 mx-1 text-white"
+                        onClick={() => handleBlockUser(user.id)}
+                      >
+                      Block
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-yellow-500 cursor-pointer rounded p-1 mx-1 text-white"
                         onClick={() => handleUnblockUser(user.id)}
                       >
-                        
-                        Unblock
+                          Un Block
                       </button>
                     )}
-
                   </td>
-                  <td className="border px-4 py-2">
-                    <Link to={`/editUser/${user.id}`} className="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
+                  {/* <td className="border px-4 py-2">
+                    <Link
+                      to={`/editUser/${user.id}`}
+                      className="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white"
+                    >
                       <i className="fas fa-edit"></i>
                     </Link>
                     <button
@@ -141,7 +108,7 @@ export default function UsersList() {
                     >
                       <i className="fas fa-trash"></i>
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

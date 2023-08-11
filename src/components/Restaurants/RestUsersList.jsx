@@ -53,9 +53,10 @@ export default function RestUsersList() {
 
   const handleBlockUser = async (userId) => {
     try {
-     
+      
       await axios.put(`${BASE_URL}/user/block/${userId}/`);
       fetchUsers();
+   
       setUserList((prevUserList) =>
        prevUserList.map((user) => {
         if (user.id === userId) {
@@ -75,6 +76,7 @@ export default function RestUsersList() {
 
   const handleUnblockUser = async (userId) => {
     try {
+      
       await axios.put(`${BASE_URL}/user/unblock/${userId}/`);
       // Handle successful unblock as needed
       // Refresh user list after unblocking

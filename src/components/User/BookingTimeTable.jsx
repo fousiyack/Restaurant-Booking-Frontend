@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { REACT_APP_STRIPE_KEY } from "../../Utils/Config";
 import { BASE_URL } from "../../Utils/Config";
+import AuthContext from "../AuthContext";
+
+
 
 function BookingTimeTable({ restaurantId }) {
   const [timeSlots, setTimeSlots] = useState([]);
@@ -15,13 +18,18 @@ function BookingTimeTable({ restaurantId }) {
   const [bookingStatus, setBookingStatus] = useState("");
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [bookingId, setBookingId] = useState(null);
+  const [price, setPrice] = useState("");
   let userId = localStorage.getItem("id");
+  let email = localStorage.getItem("email");
   // userId = 2;
   const navigate = useNavigate();
   const stripePromise = loadStripe(REACT_APP_STRIPE_KEY);
   console.log(stripePromise);
   console.log(REACT_APP_STRIPE_KEY);
-  const [price, setPrice] = useState("");
+  
+  
+  const {user}=useContext(AuthContext)
+
 
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
@@ -68,6 +76,7 @@ function BookingTimeTable({ restaurantId }) {
           date: date,
           timeId: selectedTimeSlot,
           user: userId,
+          price:price
         };
 
         axios
@@ -91,7 +100,7 @@ function BookingTimeTable({ restaurantId }) {
                   setSelectedTable(null);
                   setGuestCount(1);
                   setDate("");
-                  setBookingStatus("Booking successful!");
+                  setBookingStatus("To confirm the Booking please do the payment");
                   setShowPaymentForm(true);
                 })
                 .catch((error) => {
@@ -126,6 +135,9 @@ function BookingTimeTable({ restaurantId }) {
     setShowPaymentForm(false);
     setBookingId(null);
   };
+
+
+  console.log(user,"auth.................");
 
   return (
     <div className="container mx-auto">
@@ -204,26 +216,26 @@ function BookingTimeTable({ restaurantId }) {
             </div>
           </div>
 
-          {/*  */}
-          {/* <div className="mb-4">
-            <label
-              htmlFor="payment"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              Enter Payment
-            </label>
-            <input
-              type="text"
-              name="price"
-              id="price"
-              value={price}
-              onChange={handlePriceChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div> */}
+       
+          <div className="mb-4">
+                <label
+                  htmlFor="payment"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Enter Payment
+                </label>
+                <input
+                  type="number"
+                  name="price"
+                  id="price"
+                  value={price}
+                  required
+                  onChange={handlePriceChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
 
-          {/*  */}
-
+       
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
@@ -238,23 +250,25 @@ function BookingTimeTable({ restaurantId }) {
               action={`${BASE_URL}/user/create-checkout-session/?booking_id=${bookingId}`}
               method="POST"
             >
-              <div className="mb-4">
-                <label
+             
+                {/* <label
                   htmlFor="payment"
                   className="block text-gray-700 text-sm font-bold mb-2"
+                  type="hidden"
                 >
                   Enter Payment
-                </label>
+                </label> */}
                 <input
-                  type="text"
+                  type="hidden"
                   name="price"
                   id="price"
                   value={price}
-                  onChange={handlePriceChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 
+                
                 />
-              </div>
+              
               <input type="hidden" name="userId" value={userId} />
+              <input type="hidden" name="email" value={email} />
               <div className="flex justify-between">
                 <button
                   type="submit"
@@ -262,14 +276,14 @@ function BookingTimeTable({ restaurantId }) {
                 >
                   Proceed to Pay
                 </button>
-                <button
+                {/* <button
                   type="button"
                   // onClick={setShowPaymentForm=false}
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={handleCancelPayment} // Call the new function on Cancel button click
                 >
                   Cancel
-                </button>
+                </button> */}
               </div>
             </form>
           </div>

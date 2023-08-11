@@ -1,14 +1,39 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./dist/styles.css";
 import "./dist/all.css";
 
 const AdminSidebar = () => {
+
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+     
+
+      localStorage.removeItem("user");
+      console.log("");
+      localStorage.removeItem("access_token");
+
+      
+      console.log();
+      localStorage.removeItem("is_res_admin");
+      localStorage.removeItem("email");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("is_superuser");
+      console.log('completed');
+      localStorage.removeItem("id");
+      navigate('/admin')
+    } catch (error) {
+      // Handle any error that occurred during the logout process
+    }
+  };
   return (
     <aside
       id="sidebar"
       className="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block"
     >
+      <span className="tw-text-center font-bold 2xl ">Admin Side</span>
       <ul className="list-reset flex flex-col">
       <li className="w-full h-full py-3 px-2 border-b border-light-border">
           <Link
@@ -90,6 +115,15 @@ const AdminSidebar = () => {
             <i className="fas fa-cloud"></i>
             Community Chat Group
           </Link>
+        </li>
+        <li className="w-full h-full py-3 px-2 border-b border-light-border">
+          <button
+           
+            className="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline"
+         onClick={handleLogout} >
+            <i className="fas fa-cloud"></i>
+      Logout
+          </button>
         </li>
         {/* <li className="w-full h-full py-3 px-2">
       <Link

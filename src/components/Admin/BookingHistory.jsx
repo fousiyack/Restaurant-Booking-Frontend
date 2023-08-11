@@ -86,6 +86,7 @@ function BookingHistory() {
                   <th className="border w-1/2 px-4 py-2">Start Time</th>
                   <th className="border w-1/2 px-4 py-2">End Time</th>
                   <th className="border w-1/2 px-4 py-2">Table Number</th>
+                  <th className="border w-1/2 px-4 py-2">Amount Paid</th>
                 </tr>
               </thead>
               <tbody>
@@ -98,6 +99,7 @@ function BookingHistory() {
                     <td className="border px-4 py-2">{booking.timeId.start_time.slice(0, -3)}</td>
                     <td className="border px-4 py-2">{booking.timeId.end_time.slice(0, -3)}</td>
                     <td className="border px-4 py-2">{booking.tableId.table_number}</td>
+                    <td className="border px-4 py-2">{booking.price}</td>
                   </tr>
                 ))}
               </tbody>

@@ -10,7 +10,7 @@ const Success = () => {
       <section className="bg-gray-100 min-h-screen flex items-center justify-center">
         <div className="bg-white p-8 shadow-md rounded-md">
           <div className="text-center">
-            <h3 className="text-2xl font-bold">Booking successful , id: {session_id}!</h3>
+            <h3 className="text-2xl font-bold">Booking successful !</h3>
           </div>
         </div>
       </section>

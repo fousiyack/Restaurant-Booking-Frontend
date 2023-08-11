@@ -1,50 +1,81 @@
-import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+import React, { useContext, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import { BASE_URL } from "../../Utils/Config";
-import { toast,Toaster } from 'react-hot-toast';
+import { toast, Toaster } from "react-hot-toast";
+import AuthContext from "../AuthContext";
+
 
 const LoginModal = ({ onClose }) => {
-  const [loginMessage, setLoginMessage] = useState('');
-  const navigate=useNavigate()
+  const [loginMessage, setLoginMessage] = useState("");
+  const navigate = useNavigate();
+
+  const { setUser } = useContext(AuthContext);
+
   const initialValues = {
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await axios.post(`${BASE_URL}/user/login`, values);
-      console.log( response.data,'.............')
+      console.log(response.data.is_superuser, ".............");
 
-      const TokenData=jwt_decode(response.data.access_token)
+      const TokenData = jwt_decode(response.data.access_token);
 
-      localStorage.setItem('access_token', response.data.access_token);
-      localStorage.setItem('user', response.data.email);
-      localStorage.setItem('is_res_admin', response.data.is_res_admin);
-      localStorage.setItem('id', response.data.id);
-      
-    
+      console.log(TokenData, "TokenData.............");
+
+      const {
+        name,
+        user_id,
+        email,
+        is_active,
+        mobile,
+        is_superuser,
+        is_res_admin,
+      } = TokenData;
+
+      const userdata = {
+        name: name,
+        email: email,
+        is_active: is_active,
+        user_id: user_id,
+        mobile: mobile,
+        is_res_admin: is_res_admin,
+        is_superuser: is_superuser,
+      };
+
+      setUser(userdata);
+
+      localStorage.setItem("access_token", response.data.access_token);
+      localStorage.setItem("user", response.data.email);
+      localStorage.setItem("is_res_admin", response.data.is_res_admin);
+      localStorage.setItem("id", response.data.id);
+      localStorage.setItem("is_superuser", response.data.is_superuser);
+
       if (response.data.is_res_admin) {
-        
-        navigate('/restSide/')
-
+        navigate("/restSide/");
+      } else {
+        navigate("/");
       }
-      else{
-
-      }
-      toast.success('Logged in succesfully')
-      // setLoginMessage('Logged in successfully');
+      toast.success("Logged in succesfully!");
+      onClose();
     } catch (error) {
-      // Handle any error that occurred during the login process
+      if (error.response) {
+        const errorMessage = error.response.data.detail || "Login failed.";
+        toast.error(errorMessage);
+      }
     } finally {
       setSubmitting(false);
     }
@@ -53,7 +84,7 @@ const LoginModal = ({ onClose }) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <Toaster position='top-right' reverseOrder='false' limit={1} ></Toaster>
+        <Toaster position="top-right" reverseOrder="false" limit={1}></Toaster>
         {/* <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div> */}
@@ -74,7 +105,10 @@ const LoginModal = ({ onClose }) => {
             >
               <Form>
                 <div className="mb-4">
-                  <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
                     Email
                   </label>
                   <Field
@@ -83,11 +117,18 @@ const LoginModal = ({ onClose }) => {
                     id="email"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
                     Password
                   </label>
                   <Field
@@ -96,10 +137,18 @@ const LoginModal = ({ onClose }) => {
                     id="password"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
-                {loginMessage && <div className="text-green-500 text-sm mb-4">{loginMessage}</div>}
+                {loginMessage && (
+                  <div className="text-green-500 text-sm mb-4">
+                    {loginMessage}
+                  </div>
+                )}
 
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   <button

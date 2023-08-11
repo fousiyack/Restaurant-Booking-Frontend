@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate, json } from "react-router-dom";
 import { BASE_URL } from "../../Utils/Config";
+import { toast,Toaster } from 'react-hot-toast';
 
 const RestaurantModal = ({ onClose }) => {
   const [email, setEmail] = useState("");
@@ -53,17 +54,18 @@ const RestaurantModal = ({ onClose }) => {
       // Combine the OTP values with the email
       const otpValues = { ...values, email };
       const response = await axios.post(`${BASE_URL}/user/verify/`, otpValues);
-      console.log(response.data);
-      navigate("/user");
+      toast.success('OTP verified succesfully!')
       setShowOTPModal(false);
+      onClose()
     } catch (error) {
-      console.log(error);
+      toast.error('OTP error!')
     }
   };
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+      <Toaster position='top-right' reverseOrder='false' limit={1} ></Toaster>
         {/* <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div> */}

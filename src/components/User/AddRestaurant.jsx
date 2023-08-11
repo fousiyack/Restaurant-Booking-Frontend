@@ -49,6 +49,7 @@ const AddRestaurant = () => {
     }
   };
 
+
   const fetchCities = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/admin/cities/`);

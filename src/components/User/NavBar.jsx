@@ -45,7 +45,7 @@ const Navbar = () => {
   };
   const handleLogout = async () => {
     try {
-      //await axios.post('http://localhost:8000/user/logout/');
+      await axios.post(`${BASE_URL}/user/logout/`);
 
       localStorage.removeItem("user");
       console.log("");
@@ -55,6 +55,7 @@ const Navbar = () => {
       localStorage.removeItem("is_res_admin");
       localStorage.removeItem("user_access_token");
       localStorage.removeItem("id");
+      navigate('/')
     } catch (error) {
       // Handle any error that occurred during the logout process
     }

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
-import RestaurantAdd from "./RestaurantAdd";
 import { BASE_URL } from "../../Utils/Config";
 
 
 
-export default function RestaurantList() {
+export default function RestUnderUser() {
   const [restaurantList, setRestaurantList] = useState([]);
   const [cityNames, setCityNames] = useState({});
   const navigate = useNavigate();
+  const userId = localStorage.getItem("id");
 
   const fetchRestaurants = async () => {
     try {
       const response = await axios.get(
-        "${BASE_URL}/restaurant/restListall/"
+        `${BASE_URL}/restaurant/RestListOwner/${userId}`
       );
       setRestaurantList(response.data);
     } catch (error) {
@@ -79,9 +79,7 @@ export default function RestaurantList() {
 //       console.log(error);
 //     }
 //   };
-  const handleButtonClick = () => {
-    navigate("/RestaurantAdd");
-  };
+
 
   const handleDeleteResturant = async (restaurantId) => {
     try {
@@ -104,10 +102,7 @@ export default function RestaurantList() {
           <div className="">
           
              
-          
-            <button onClick={handleButtonClick} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-            Add New Restaurant
-</button>
+       
           </div>
         </div>
         <div className="p-3">
@@ -119,7 +114,7 @@ export default function RestaurantList() {
                 <th className="border w-1/6 px-4 py-2">Contact Number</th>
                 <th className="border w-1/6 px-4 py-2">Email Address</th>
                 {/* <th className="border w-1/6 px-4 py-2">City</th> */}
-                {/* <th className="border w-1/6 px-4 py-2">Approved or Not</th> */}
+                <th className="border w-1/6 px-4 py-2">Approved or Not</th> 
                 <th className="border w-1/5 px-4 py-2">Actions</th>
               </tr>
             </thead>
@@ -141,42 +136,27 @@ export default function RestaurantList() {
                     {restaurant.email_address}
                   </td>
              
-                  {/* <td className="border px-4 py-2">
-                    {restaurant.city ? (
-                      <span>{cityNames[restaurant.city]}</span>
-                    ) :""}
-                    
-                  </td> */}
-                  {/* <td className="border px-4 py-2">
+                  <td className="border px-4 py-2">
                     {restaurant.is_approved ? (
                       <>
-                         <i className="fas fa-check text-green-500 mx-2"onClick={() => handleNotApprove(restaurant.id)}></i>
                        
-                        <button   style={{ display: 'none' }} class="bg-green-500 text-red font-bold py-2 px-4 rounded-full"onClick={() => handleNotApprove(restaurant.id)}>
                          Approved
-</button>
+
                       </>
                     ) : (
                       <>
                        
-                        <i className="fas fa-times text-red-500 mx-2" onClick={() => handleApprove(restaurant.id)}></i>
-                        <button   style={{ display: 'none' }} class="bg-red-500 text-red font-bold py-2 px-4 rounded-full"onClick={() => handleApprove(restaurant.id)}>
-                        Not Approved
-</button>
+                          Not Approved
+
 
                       </>
                     )}
-                  </td> */}
+                  </td>
                   <td className="border px-4 py-2">
-                    {/* <button
-                      className="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-red-500"
-                      onClick={() => handleReject(restaurant.id)}
-                    >
-                      Reject
-                    </button> */}
+                 
                     <>
                       <Link
-                        to={`/edit/${restaurant.id}`}
+                        to={`/restSide/edit/${restaurant.id}`}
                         className="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white"
                       >
                         <i className="fas fa-edit"></i>
