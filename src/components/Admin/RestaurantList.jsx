@@ -109,14 +109,14 @@ export default function RestaurantList() {
           <div className="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
             Restaurants List
           </div>
-          <div className="">
+          {/* <div className="">
             <button
               onClick={handleButtonClick}
               className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             >
               Add New Restaurant
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="p-3">
           <table className="table-responsive w-full rounded">
@@ -130,8 +130,8 @@ export default function RestaurantList() {
                
                 {/* <th className="border w-1/6 px-4 py-2">City</th> */}
                 <th className="border w-1/6 px-4 py-2">Approved or Not</th>
-                <th className="border w-1/5 px-4 py-2">Edit</th>
-                <th className="border w-1/5 px-4 py-2">Delete</th>
+                {/* <th className="border w-1/5 px-4 py-2">Edit</th>
+                <th className="border w-1/5 px-4 py-2">Delete</th> */}
               </tr>
             </thead>
             <tbody>
@@ -193,7 +193,7 @@ export default function RestaurantList() {
                       </>
                     )}
                   </td>
-                  <td className="border px-4 py-2">
+                  {/* <td className="border px-4 py-2">
                     <>
                       <Link
                         to={`/edit/${restaurant.id}`}
@@ -213,7 +213,7 @@ export default function RestaurantList() {
                         <i className="fas fa-trash"></i>
                       </button>
                     </>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

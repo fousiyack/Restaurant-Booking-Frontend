@@ -126,7 +126,7 @@ const ResturantEdit = ({ match }) => {
       console.log(response);
 
       toast.success("Edited successfully");
-      // Navigate("/RestaurantList");
+      Navigate("/restSide/RestUnderUser");
     } catch (error) {
       console.log(error);
       // Handle error

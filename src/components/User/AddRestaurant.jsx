@@ -8,6 +8,7 @@ const AddRestaurant = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
+  const user = localStorage.getItem("id");
 
   const [formData, setFormData] = useState({
     restaurant_name: "",
@@ -24,7 +25,8 @@ const AddRestaurant = () => {
     image2: null,
     image3: null,
     image4: null,
-    cuisine_type: ""
+    cuisine_type: "",
+    user: user,
   });
 
   const handleChange = (e) => {
@@ -34,21 +36,23 @@ const AddRestaurant = () => {
         [e.target.name]: e.target.files[0],
         imagePreview: URL.createObjectURL(e.target.files[0]),
       });
-    }
-    else if (e.target.name === "image1" || e.target.name === "image2" || e.target.name === "image3" || e.target.name === "image4") {
+    } else if (
+      e.target.name === "image1" ||
+      e.target.name === "image2" ||
+      e.target.name === "image3" ||
+      e.target.name === "image4"
+    ) {
       setFormData({
         ...formData,
         [e.target.name]: e.target.files[0],
       });
-    } 
-    else {
+    } else {
       setFormData({
         ...formData,
         [e.target.name]: e.target.value,
       });
     }
   };
-
 
   const fetchCities = async () => {
     try {
@@ -74,13 +78,14 @@ const AddRestaurant = () => {
       formDataToSend.append("city", formData.city);
       formDataToSend.append("state", formData.state);
       formDataToSend.append("restaurant_address", formData.restaurant_address);
-      formDataToSend.append("user",localStorage.getItem('id')); 
+      formDataToSend.append("user", localStorage.getItem("id"));
       formDataToSend.append("description", formData.description);
       formDataToSend.append("cuisine_type", formData.cuisine_type);
       formDataToSend.append("image1", formData.image1);
       formDataToSend.append("image2", formData.image2);
       formDataToSend.append("image3", formData.image3);
       formDataToSend.append("image4", formData.image4);
+
       // if (formData.image) {
       //   formDataToSend.append("image", formData.image);
       // }
@@ -90,7 +95,7 @@ const AddRestaurant = () => {
         formDataToSend.append("image", formData.image, uniqueFilename);
       }
 
-      console.log("formData.............", formData);
+      console.log("formDataToSend:", formDataToSend);
 
       const response = await axios.post(
         `${BASE_URL}/restaurant/addrest/`,
@@ -104,6 +109,7 @@ const AddRestaurant = () => {
 
       console.log(response.data);
       setSuccessMessage("Restaurant added successfully");
+      navigate("/restSide/RestUnderUser");
     } catch (error) {
       console.log(error);
     }
@@ -393,4 +399,3 @@ const AddRestaurant = () => {
 };
 
 export default AddRestaurant;
-
